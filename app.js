@@ -132,3 +132,22 @@ function getAllReviewRatings(products) {
   return products.flatMap(p => p.reviews.map(r => r.rating));
 }
 console.log("7. Semua rating (flat):", getAllReviewRatings(productsNested));
+
+//bagian 4
+
+const tagsNested = [
+  ["computer", "office"],
+  ["electronics"],
+  ["gaming", "computer"]
+];
+
+function getAllTagsFlat(products) {
+  return products.flatMap(p => p.tags);
+}
+
+function getAllComments(products) {
+  return products.flatMap(p => p.reviews.map(r => r.comment));
+}
+console.log("Pemanasan - flat():", tagsNested.flat());
+console.log("4.1 - Semua tags (flatMap):", getAllTagsFlat(productsNested));
+console.log("4.2 - Semua comment:", getAllComments(productsNested));
