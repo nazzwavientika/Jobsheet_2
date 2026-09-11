@@ -203,9 +203,9 @@ function linearSearchProductById(products, id) {
   return -1;
 }
 
-const numbers = [10, 25, 3, 47, 8];
-console.log("Index angka 47:", linearSearch(numbers, 47));
-console.log("Index angka 99 (tidak ada):", linearSearch(numbers, 99));
+const searchNumbers = [10, 25, 3, 47, 8];
+console.log("Index angka 47:", linearSearch(searchNumbers, 47));
+console.log("Index angka 99 (tidak ada):", linearSearch(searchNumbers, 99));
 
 console.log("Index produk id 4:", linearSearchProductById(products, 4));
 console.log("Index produk id 99 (tidak ada):", linearSearchProductById(products, 99));
@@ -253,3 +253,48 @@ console.log("Index angka 99 (tidak ada):", binarySearch(sortedNumbers, 99));
 const sortedProducts = [...products].sort((a, b) => a.price - b.price);
 console.log("Produk terurut by price:", sortedProducts.map(p => p.title + ": " + p.price));
 console.log("Index harga 800:", binarySearchByPrice(sortedProducts, 800));
+
+//bagian 8
+const numbers = [5, 3, 8, 1];
+const ascending = [...numbers].sort((a, b) => a - b);
+const descending = [...numbers].sort((a, b) => b - a);
+
+//latihan 8.1
+function bubbleSort(numbers) {
+  const arr = [...numbers]; 
+  for (let i = 0; i < arr.length - 1; i++) {
+    for (let j = 0; j < arr.length - 1 - i; j++) {
+      if (arr[j] > arr[j + 1]) {
+        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]; 
+      }
+    }
+  }
+  return arr;
+}
+
+//latihan 8.2
+function sortProducts(products, sortBy) {
+  const sorted = [...products]; // salin dulu, jangan ubah array asli
+
+  switch (sortBy) {
+    case "price-asc":
+      return sorted.sort((a, b) => a.price - b.price);
+    case "price-desc":
+      return sorted.sort((a, b) => b.price - a.price);
+    case "rating":
+      return sorted.sort((a, b) => b.rating - a.rating);
+    case "title":
+      return sorted.sort((a, b) => a.title.localeCompare(b.title));
+    default:
+      return sorted;
+  }
+}
+
+console.log("Ascending:", ascending);
+console.log("Descending:", descending);
+console.log("Bubble sort:", bubbleSort(numbers));
+console.log("Array asli (numbers) tidak berubah:", numbers);
+
+console.log("Produk by price-asc:", sortProducts(products, "price-asc").map(p => p.title + ": " + p.price));
+console.log("Produk by rating:", sortProducts(products, "rating").map(p => p.title + ": " + p.rating));
+console.log("Produk by title:", sortProducts(products, "title").map(p => p.title));
