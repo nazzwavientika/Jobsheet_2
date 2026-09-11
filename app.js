@@ -184,3 +184,28 @@ console.log("Produk mahal (>500):", expensiveProducts);
 console.log("Total stok:", totalStock);
 console.log("Rata-rata harga laptops:", avgLaptopPrice);
 console.log("Statistik lengkap:", getStatistics(products));
+
+//bagian 6
+
+//latihan 6.1
+function linearSearch(array, target) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] === target) return i;
+  }
+  return -1;
+}
+
+//latihan 6.2
+function linearSearchProductById(products, id) {
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].id === id) return i; 
+  }
+  return -1;
+}
+
+const numbers = [10, 25, 3, 47, 8];
+console.log("Index angka 47:", linearSearch(numbers, 47));
+console.log("Index angka 99 (tidak ada):", linearSearch(numbers, 99));
+
+console.log("Index produk id 4:", linearSearchProductById(products, 4));
+console.log("Index produk id 99 (tidak ada):", linearSearchProductById(products, 99));
