@@ -209,3 +209,47 @@ console.log("Index angka 99 (tidak ada):", linearSearch(numbers, 99));
 
 console.log("Index produk id 4:", linearSearchProductById(products, 4));
 console.log("Index produk id 99 (tidak ada):", linearSearchProductById(products, 99));
+
+//bagian 7
+function binarySearch(sortedArray, target) {
+  let left = 0;
+  let right = sortedArray.length - 1;
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+
+    if (sortedArray[mid] === target) return mid;
+    if (sortedArray[mid] < target) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
+    }
+  }
+
+  return -1;
+}
+//latihan 7.2
+function binarySearchByPrice(sortedProducts, targetPrice) {
+  let left = 0;
+  let right = sortedProducts.length - 1;
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+
+    if (sortedProducts[mid].price === targetPrice) return mid;
+    if (sortedProducts[mid].price < targetPrice) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
+    }
+  }
+return -1;
+}
+
+const sortedNumbers = [3, 8, 10, 25, 47]; 
+console.log("Index angka 25:", binarySearch(sortedNumbers, 25));
+console.log("Index angka 99 (tidak ada):", binarySearch(sortedNumbers, 99));
+
+const sortedProducts = [...products].sort((a, b) => a.price - b.price);
+console.log("Produk terurut by price:", sortedProducts.map(p => p.title + ": " + p.price));
+console.log("Index harga 800:", binarySearchByPrice(sortedProducts, 800));
