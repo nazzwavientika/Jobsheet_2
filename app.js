@@ -23,11 +23,11 @@ console.log(applyDiscounts(cart));
 //bagian 2
 
 const products = [
-  { id: 1, title: "Laptop", price: 1200, category: "laptops", stock: 5 },
-  { id: 2, title: "Smartphone", price: 800, category: "phones", stock: 15 },
-  { id: 3, title: "Headphones", price: 100, category: "audio", stock: 3 },
-  { id: 4, title: "Mouse", price: 20, category: "accessories", stock: 50 },
-  { id: 5, title: "Monitor", price: 300, category: "electronics", stock: 8 }
+  { id: 1, title: "Laptop", price: 1200, category: "laptops", stock: 5, rating: 4.5 },
+  { id: 2, title: "Smartphone", price: 800, category: "phones", stock: 15, rating: 4.2 },
+  { id: 3, title: "Headphones", price: 100, category: "audio", stock: 3, rating: 3.8 },
+  { id: 4, title: "Mouse", price: 20, category: "accessories", stock: 50, rating: 4.0 },
+  { id: 5, title: "Monitor", price: 300, category: "electronics", stock: 8, rating: 4.6 }
 ];
 
 //latihan 2.1
@@ -151,3 +151,36 @@ function getAllComments(products) {
 console.log("Pemanasan - flat():", tagsNested.flat());
 console.log("4.1 - Semua tags (flatMap):", getAllTagsFlat(productsNested));
 console.log("4.2 - Semua comment:", getAllComments(productsNested));
+
+//bagian 5
+const titles = products.map(p => p.title);
+const expensiveProducts = products.filter(p => p.price > 500);
+const totalStock = products.reduce((sum, p) => sum + p.stock, 0);
+
+//latihan 5.1
+const laptopPrices = products
+  .filter(p => p.category === "laptops")
+  .map(p => p.price);
+
+const avgLaptopPrice = laptopPrices.reduce((a, b) => a + b, 0) / laptopPrices.length;
+
+//latihan 5.2
+function getStatistics(products) {
+  const prices = products.map(p => p.price);
+  const ratings = products.map(p => p.rating);
+
+  const totalProducts = products.length;
+  const averagePrice = prices.reduce((a, b) => a + b, 0) / totalProducts;
+  const highestPrice = Math.max(...prices);
+  const lowestPrice = Math.min(...prices);
+  const totalStock = products.reduce((sum, p) => sum + p.stock, 0);
+  const averageRating = ratings.reduce((a, b) => a + b, 0) / totalProducts;
+
+  return { totalProducts, averagePrice, highestPrice, lowestPrice, totalStock, averageRating };
+}
+
+console.log("Semua judul:", titles);
+console.log("Produk mahal (>500):", expensiveProducts);
+console.log("Total stok:", totalStock);
+console.log("Rata-rata harga laptops:", avgLaptopPrice);
+console.log("Statistik lengkap:", getStatistics(products));
