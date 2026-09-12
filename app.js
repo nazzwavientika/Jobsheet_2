@@ -365,4 +365,16 @@ console.log("\nFrekuensi category:", getCategoryFrequency(products));
 console.log("Frekuensi tags:", getTagFrequency(productsNested));
 console.log("Frekuensi rating (dibulatkan):", getRatingFrequency(products));
 
+// latihan 11
+
+//latihan 11.1 mendapatkan unique category, unique brand, dan unique tags
+function getUniqueCategories(products) {
+  return [...new Set(products.map(p => p.category))];
+}
+
+function getUniqueTags(products) {
+  return [...new Set(products.flatMap(p => p.tags))];
+}
+console.log("Unique categories:", getUniqueCategories(products));
+console.log("Unique tags:", getUniqueTags(productsNested));
 
