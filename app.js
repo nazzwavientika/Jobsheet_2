@@ -298,3 +298,34 @@ console.log("Array asli (numbers) tidak berubah:", numbers);
 console.log("Produk by price-asc:", sortProducts(products, "price-asc").map(p => p.title + ": " + p.price));
 console.log("Produk by rating:", sortProducts(products, "rating").map(p => p.title + ": " + p.rating));
 console.log("Produk by title:", sortProducts(products, "title").map(p => p.title));
+
+//bagian 9 grouping dan aggregation 
+
+//latihan 9.1
+function groupByCategory(products) {
+  return products.reduce((groups, product) => {
+    const key = product.category;
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(product);
+    return groups;
+  }, {});
+}
+const grouped = groupByCategory(products);
+console.log("Hasil grouping:", grouped);
+
+//latihan 9.2
+function summarizeByCategory(products) {
+  const grouped = groupByCategory(products);
+  const summary = []
+
+  for (const category in grouped) {
+    summary.push ({
+      category: category,
+      jumlahProduk: grouped[category].length
+    });
+  }
+return summary;
+}
+const summary = summarizeByCategory(products);
+console.log("\nRingkasan per kategory:");
+console.table(summary);
