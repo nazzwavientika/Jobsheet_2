@@ -378,3 +378,17 @@ function getUniqueTags(products) {
 console.log("Unique categories:", getUniqueCategories(products));
 console.log("Unique tags:", getUniqueTags(productsNested));
 
+//latihan 12 buildProductLookup
+function buildProductLookup(products) {
+  const productMap = new Map();
+  for (const product of products) {
+    productMap.set(product.id, product);
+  }
+  return productMap;
+}
+
+const productLookup = buildProductLookup(products);
+
+console.log("Cari produk id 3 pakai Map.get():", productLookup.get(3));
+console.log("Jumlah produk di Map (size):", productLookup.size);
+console.log("Apakah ada produk id 10?", productLookup.has(10));
