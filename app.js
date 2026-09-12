@@ -329,3 +329,40 @@ return summary;
 const summary = summarizeByCategory(products);
 console.log("\nRingkasan per kategory:");
 console.table(summary);
+
+//bagian 10 frequency counting
+
+//latihan 10.1
+function countFrequency(array) {
+  return array.reduce((counts, item) => {
+    counts[item] = (counts[item] || 0) +1;
+    return counts;
+  }, {});
+}
+
+//latihan 10.2
+//frekkuensi category
+function getCategoryFrequency(products) {
+  const categories = products.map(p => p.category);
+  return countFrequency(categories);
+}
+//frekuensi tags menggunakan flatMap dari bagian 3-4
+function getTagFrequency(products) {
+  const allTags = products.flatMap(p => p.tags);
+  return countFrequency(allTags);
+}
+
+//frekuensi rating
+function getRatingFrequency(products) {
+  const roundedRatings = products.map(p => Math.round(p.rating));
+  return countFrequency(roundedRatings);
+}
+
+const words = ["laptop", "phone", "laptop", "tablet", "phone", "laptop"];
+console.log("Frekuensi kata:", countFrequency(words));
+
+console.log("\nFrekuensi category:", getCategoryFrequency(products));
+console.log("Frekuensi tags:", getTagFrequency(productsNested));
+console.log("Frekuensi rating (dibulatkan):", getRatingFrequency(products));
+
+
