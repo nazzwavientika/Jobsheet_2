@@ -392,3 +392,53 @@ const productLookup = buildProductLookup(products);
 console.log("Cari produk id 3 pakai Map.get():", productLookup.get(3));
 console.log("Jumlah produk di Map (size):", productLookup.size);
 console.log("Apakah ada produk id 10?", productLookup.has(10));
+
+
+//bagian 13 stack
+
+// latihan 13.1
+class Stack {
+  constructor() {
+    this.items = [];
+  }
+
+  push(item) {
+    this.items.push(item);
+  }
+
+  pop() {
+    return this.items.pop();
+  }
+
+  peek() {
+    return this.items[this.items.length - 1];
+  }
+
+  isEmpty() {
+    return this.items.length === 0;
+  }
+}
+
+// latihan 13.2
+const searchHistory = new Stack();
+
+function recordSearch(keyword) {
+  searchHistory.push(keyword);
+}
+
+function undoSearch() {
+  if (searchHistory.isEmpty()) {
+    return "Tidak ada riwayat pencarian";
+  }
+  return searchHistory.pop();
+}
+
+recordSearch("laptop");
+recordSearch("phone");
+recordSearch("tablet");
+
+console.log("Item paling atas (peek):", searchHistory.peek());
+console.log("Undo search:", undoSearch()); 
+console.log("Undo search lagi:", undoSearch());
+console.log("Undo search lagi:", undoSearch());
+console.log("Undo search lagi (kosong):", undoSearch());
