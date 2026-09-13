@@ -522,3 +522,80 @@ countdown(5);
 
 console.log("\n--- Print Categories ---");
 printCategories(categories);
+
+//bagian 16  Algorithm Complexity (Big-O)
+//latihan 16.1
+
+function linearSearchCountSteps(array, target) {
+  let steps = 0;
+  for (let i = 0; i < array.length; i++) {
+    steps++;
+    if (array[i] === target) return { index: i, steps };
+  }
+  return { index: -1, steps };
+}
+function binarySearchCountSteps(sortedArray, target) {
+  let steps = 0;
+  let left = 0;
+  let right = sortedArray.length - 1;
+
+  while (left <= right) {
+    steps++;
+    const mid = Math.floor((left + right) / 2);
+    if (sortedArray[mid] === target) return { index: mid, steps };
+    if (sortedArray[mid] < target) left = mid + 1;
+    else right = mid - 1;
+  }
+  return { index: -1, steps };
+}
+
+// buat array besar
+const largeSortedArray = Array.from({ length: 10000 }, (_, i) => i); // [0, 1, 2, ..., 9999]
+
+//latihan 16.2
+function groupByCategoryNestedLoop(products) {
+  const uniqueCategories = [];
+  for (const product of products) {
+    let found = false;
+    for (const cat of uniqueCategories) {
+      if (cat === product.category) {
+        found = true;
+        break;
+      }
+    }
+    if (!found) uniqueCategories.push(product.category);
+  }
+   return uniqueCategories;
+}
+
+function groupByCategoryWithMap(products) {
+  const categoryMap = new Map();
+  for (const product of products) {
+    if (!categoryMap.has(product.category)) {
+      categoryMap.set(product.category, true);
+    }
+  }
+  return [...categoryMap.keys()];
+}
+
+console.log("Linear search (target di akhir):", linearSearchCountSteps(largeSortedArray, 9999));
+console.log("Binary search (target di akhir):", binarySearchCountSteps(largeSortedArray, 9999));
+
+const largeProducts = Array.from({ length: 1000 }, (_, i) => ({
+  id: i,
+  category: `category-${i % 20}` // 20 kategori berbeda, diulang-ulang
+}));
+
+const start1 = performance.now();
+groupByCategoryNestedLoop(largeProducts);
+const end1 = performance.now();
+
+const start2 = performance.now();
+groupByCategoryWithMap(largeProducts);
+const end2 = performance.now();
+
+console.log(`\nNested loop: ${(end1 - start1).toFixed(4)} ms`);
+console.log(`Map-based: ${(end2 - start2).toFixed(4)} ms`);
+
+
+
