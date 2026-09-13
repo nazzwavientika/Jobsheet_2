@@ -442,3 +442,39 @@ console.log("Undo search:", undoSearch());
 console.log("Undo search lagi:", undoSearch());
 console.log("Undo search lagi:", undoSearch());
 console.log("Undo search lagi (kosong):", undoSearch());
+
+//bagian 14 queue
+
+//latihan14.1
+class Queue {
+  constructor() {
+    this.items = [];
+  }
+
+  enqueue(item) {
+    this.items.push(item);
+  }
+
+  dequeue() {
+    return this.items.shift();
+  }
+ peek() {
+    return this.items[0];
+  }
+
+  isEmpty() {
+    return this.items.length === 0;
+  }
+}
+
+const customerQueue = new Queue();
+
+customerQueue.enqueue("Andi");
+customerQueue.enqueue("Budi");
+customerQueue.enqueue("Citra");
+
+console.log("Antrean paling depan (peek):", customerQueue.peek());
+console.log("Dilayani:", customerQueue.dequeue()); 
+console.log("Dilayani:", customerQueue.dequeue());
+console.log("Dilayani:", customerQueue.dequeue());
+console.log("Antrean kosong?", customerQueue.isEmpty());
