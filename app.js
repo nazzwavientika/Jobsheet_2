@@ -478,3 +478,47 @@ console.log("Dilayani:", customerQueue.dequeue());
 console.log("Dilayani:", customerQueue.dequeue());
 console.log("Dilayani:", customerQueue.dequeue());
 console.log("Antrean kosong?", customerQueue.isEmpty());
+
+//bagian 15 recursion
+
+function countdown(n) {
+  if (n <= 0) {
+    console.log("Selesai");
+    return;
+  }
+  console.log(n);
+  countdown(n - 1);
+}
+
+//latihan 15.1
+const categories = [
+  {
+    name: "Electronics",
+    children: [
+      {
+        name: "Laptop",
+        children: [
+          { name: "Gaming Laptop", children: [] },
+          { name: "Ultrabook", children: [] }
+        ]
+      },
+      { name: "Phone", children: [] }
+    ]
+  },
+  { name: "Fashion", children: [] }
+];
+
+function printCategories(categories, depth = 0) {
+  for (const category of categories) {
+    console.log(" ".repeat(depth * 2) + category.name);
+    if (category.children.length > 0) {
+      printCategories(category.children, depth + 1);
+    }
+  }
+}
+
+console.log("--- Countdown ---");
+countdown(5);
+
+console.log("\n--- Print Categories ---");
+printCategories(categories);
