@@ -617,7 +617,44 @@ function renderProducts(products) {
   }
 }
 
-renderProducts(products);
 
+
+// bagian 18 State Management Sederhana 
+
+const state = {
+  products: products,   
+  search: "",
+  category: "all",
+  sortBy: "default",
+  favorites: [],
+  status: "idle" 
+};
+
+function render() {
+  let result = [...state.products];
+
+ 
+  if (state.search) {
+    result = result.filter(p =>
+      p.title.toLowerCase().includes(state.search.toLowerCase())
+    );
+  }
+
+  // 3. Filter berdasarkan category (kalau bukan "all")
+  if (state.category !== "all") {
+    result = result.filter(p => p.category === state.category);
+  }
+
+  // 4. Sort berdasarkan sortBy (pakai sortProducts dari Bagian 8)
+  if (state.sortBy !== "default") {
+    result = sortProducts(result, state.sortBy);
+  }
+
+  // 5. Render hasil akhir ke DOM (pakai renderProducts dari Bagian 17)
+  renderProducts(result);
+}
+
+// Panggil render() sekali di awal, BUKAN renderProducts(products) langsung
+render();
 
 
