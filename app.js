@@ -166,14 +166,15 @@ const avgLaptopPrice = laptopPrices.reduce((a, b) => a + b, 0) / laptopPrices.le
 
 //latihan 5.2
 function getStatistics(products) {
-  const prices = products.map(p => p.price);
-  const ratings = products.map(p => p.rating);
+  const prices = products.map(({ price }) => price);
+  const ratings = products.map(({ rating }) => rating ?? 0);
+  const stocks = products.map(({ stock }) => stock ?? 0);
 
   const totalProducts = products.length;
   const averagePrice = prices.reduce((a, b) => a + b, 0) / totalProducts;
   const highestPrice = Math.max(...prices);
   const lowestPrice = Math.min(...prices);
-  const totalStock = products.reduce((sum, p) => sum + p.stock, 0);
+  const totalStock = stocks.reduce((a, b) => a + b, 0);
   const averageRating = ratings.reduce((a, b) => a + b, 0) / totalProducts;
 
   return { totalProducts, averagePrice, highestPrice, lowestPrice, totalStock, averageRating };
@@ -678,5 +679,45 @@ sortSelect.addEventListener("change", (e) => {
   state.sortBy = e.target.value;
   render();
 });
+
+//bagian 20 modern javasript
+
+const productLabel = products.map(p => `${p.title} - $${p.price}`);
+// Arrow function (sudah sering dipakai)
+const getTitle = (product) => product.title;
+
+// Destructuring object
+const { title, price, category } = products[0];
+
+// Destructuring array
+const [firstProduct, ...restProducts] = products;
+
+// Spread — bikin salinan objek dengan 1 properti diubah
+const updatedProduct = { ...products[0], stock: 20 };
+// Rest parameter — menerima jumlah argumen yang tidak pasti
+function sumPrices(...prices) {
+  return prices.reduce((a, b) => a + b, 0);
+}
+
+// Optional chaining dan nullish coalescing
+const width = products[0].dimensions?.width ?? "Tidak diketahui";
+// Default parameter
+function filterByCategory(products, category = "all") {
+  if (category === "all") return products;
+  return products.filter(p => p.category === category);
+}
+
+console.log("Label produk:", productLabel);
+console.log("Destructuring:", title, price, category);
+console.log("Produk pertama:", firstProduct.title);
+console.log("Sisa produk:", restProducts.map(p => p.title));
+console.log("Update stock (immutable):", updatedProduct);
+const merged = [...products, { id: 99, title: "New Product", price: 500 }];
+console.log("Merged:", merged.map(p => p.title));
+console.log("Total 3 harga custom:", sumPrices(100, 200, 300));
+console.log("Width (optional chaining):", width);
+console.log("Filter default (semua):", filterByCategory(products).length);
+console.log("Statistik (refactored):", getStatistics(products));
+
 
 
