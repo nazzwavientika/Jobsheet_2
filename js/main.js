@@ -52,3 +52,21 @@ if (sortSelect) {
 // Jalankan render awal
 render();
 console.log("Statistik awal:", getStatistics(state.products));
+
+//bagian 22 promise
+
+
+const contohPromise = new Promise((resolve, reject) => {
+  const berhasil = true; 
+
+  if (berhasil) {
+    resolve("Data berhasil diambil");
+  } else {
+    reject("Terjadi error");
+  }
+});
+
+contohPromise
+  .then(result => console.log("Promise berhasil:", result))
+  .catch(error => console.error("Promise gagal:", error))
+  .finally(() => console.log("Promise selesai, apa pun hasilnya"));
