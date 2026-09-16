@@ -70,3 +70,34 @@ contohPromise
   .then(result => console.log("Promise berhasil:", result))
   .catch(error => console.error("Promise gagal:", error))
   .finally(() => console.log("Promise selesai, apa pun hasilnya"));
+
+  // Bagian 23: Async/Await
+
+// Simulasi function yang mengembalikan Promise (mirip fetch API nanti)
+function getProductsSimulasi() {
+  return new Promise((resolve, reject) => {
+    const berhasil = true;
+    setTimeout(() => {
+      if (berhasil) {
+        resolve(["Laptop", "Smartphone", "Headphones"]);
+      } else {
+        reject("Gagal mengambil data produk");
+      }
+    }, 1000); // simulasi delay 1 detik, seperti request internet sungguhan
+  });
+}
+
+async function loadProducts() {
+  try {
+    console.log("Mulai mengambil data...");
+    const hasil = await getProductsSimulasi();
+    console.log("Berhasil:", hasil);
+  } catch (error) {
+    console.error("Gagal:", error);
+  } finally {
+    console.log("Proses selesai, apa pun hasilnya");
+  }
+}
+
+// Panggil function async-nya
+loadProducts();
