@@ -1,9 +1,23 @@
 import { state } from "./state.js";
 import { renderProducts } from "./ui.js";
-import { sortProducts, getStatistics } from "./algorithms.js";
+import { sortProducts } from "./algorithms.js";
+import { fetchProducts } from "./api.js";
 
 // Fungsi render utama yang memantau State
 function render() {
+  const container = document.querySelector("#product-list");
+  if (!container) return;
+
+  if (state.status === "loading") {
+    container.innerHTML = "<p>Memuat data...</p>";
+    return;
+  }
+
+  if (state.status === "error") {
+    container.innerHTML = "<p>Gagal memuat data. Silakan coba lagi.</p>";
+    return;
+  }
+
   let result = [...state.products];
 
   if (state.search) {
@@ -20,7 +34,28 @@ function render() {
     result = sortProducts(result, state.sortBy);
   }
 
+  if (result.length === 0) {
+    container.innerHTML = "<p>Produk tidak ditemukan.</p>";
+    return;
+  }
+
   renderProducts(result);
+}
+
+// Bagian 24: mengambil data dari DummyJSON
+async function loadProducts() {
+  state.status = "loading";
+  render();
+
+  try {
+    const products = await fetchProducts();
+    state.products = products;
+    state.status = "success";
+  } catch (error) {
+    state.status = "error";
+  } finally {
+    render();
+  }
 }
 
 // Event Listeners (Bagian 19)
@@ -49,55 +84,5 @@ if (sortSelect) {
   });
 }
 
-// Jalankan render awal
-render();
-console.log("Statistik awal:", getStatistics(state.products));
-
-//bagian 22 promise
-
-
-const contohPromise = new Promise((resolve, reject) => {
-  const berhasil = true; 
-
-  if (berhasil) {
-    resolve("Data berhasil diambil");
-  } else {
-    reject("Terjadi error");
-  }
-});
-
-contohPromise
-  .then(result => console.log("Promise berhasil:", result))
-  .catch(error => console.error("Promise gagal:", error))
-  .finally(() => console.log("Promise selesai, apa pun hasilnya"));
-
-  // Bagian 23: Async/Await
-
-// Simulasi function yang mengembalikan Promise (mirip fetch API nanti)
-function getProductsSimulasi() {
-  return new Promise((resolve, reject) => {
-    const berhasil = true;
-    setTimeout(() => {
-      if (berhasil) {
-        resolve(["Laptop", "Smartphone", "Headphones"]);
-      } else {
-        reject("Gagal mengambil data produk");
-      }
-    }, 1000); // simulasi delay 1 detik, seperti request internet sungguhan
-  });
-}
-
-async function loadProducts() {
-  try {
-    console.log("Mulai mengambil data...");
-    const hasil = await getProductsSimulasi();
-    console.log("Berhasil:", hasil);
-  } catch (error) {
-    console.error("Gagal:", error);
-  } finally {
-    console.log("Proses selesai, apa pun hasilnya");
-  }
-}
-
-// Panggil function async-nya
 loadProducts();
+
