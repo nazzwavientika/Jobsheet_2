@@ -1,73 +1,73 @@
-// 1. IMPORT MODUL
 import { fetchProducts } from "./api.js";
 import { state } from "./state.js";
-import { renderProducts } from "./ui.js";
+import { 
+  renderProducts, 
+  renderStatistics, 
+  renderCategoryOptions, 
+  renderStatus 
+} from "./ui.js";
 import { 
   sortProducts, 
   getStatistics, 
-  getCategoryAnalytics, 
   searchProducts 
 } from "./algorithms.js";
 
-// 2. FUNGSI RENDER UTAMA
+// Pipeline Filter & Render Utama
 function render() {
   let result = [...state.products];
 
+  // 1. Filter Search (Keyword)
   if (state.search) {
     result = searchProducts(result, state.search, "partial");
   }
 
+  // 2. Filter Category
   if (state.category !== "all") {
     result = result.filter(p => p.category === state.category);
   }
 
+  // 3. Sorting
   if (state.sortBy !== "default") {
     result = sortProducts(result, state.sortBy);
   }
 
-  renderProducts(result);
+  // Check jika hasil filter kosong
+  if (result.length === 0) {
+    renderStatus("empty");
+  } else {
+    renderStatus("success");
+    renderProducts(result);
+  }
+
+  // Update Statistik berdasarkan data yang sedang tampil (atau seluruh data)
+  const currentStats = getStatistics(result);
+  renderStatistics(currentStats);
 }
 
-// 3. BAGIAN 22: CONTOH PROMISE
-const contohPromise = new Promise((resolve, reject) => {
-  const berhasil = true; 
-  if (berhasil) resolve("Data berhasil diambil");
-  else reject("Terjadi error");
-});
-
-contohPromise
-  .then(result => console.log("Promise berhasil:", result))
-  .catch(error => console.error("Promise gagal:", error))
-  .finally(() => console.log("Promise selesai, apa pun hasilnya"));
-
-// 4. BAGIAN 23, 24, & 25: ASYNC/AWAIT & FETCH API DUMMYJSON
-async function loadProducts() {
+// Inisialisasi Aplikasi Utama
+async function initApp() {
   try {
-    console.log("Mulai mengambil data produk...");
-    state.status = "loading";
-
-    // Bagian 24: Fetch data asli dari DummyJSON
+    renderStatus("loading");
+    
+    // Fetch Data dari DummyJSON
     const data = await fetchProducts();
     state.products = data;
     state.status = "success";
 
-    // Bagian 25: Pengolahan & Statistik Data API
-    console.log("=== 25.1 Product Statistics ===", getStatistics(state.products));
-    console.log("=== 25.2 Category Analytics ===", getCategoryAnalytics(state.products));
-    console.log("=== 25.3 Search 'phone' ===", searchProducts(state.products, "phone", "partial"));
+    // Buat daftar kategori unik menggunakan Set (Bagian 11)
+    const uniqueCategories = [...new Set(data.map(p => p.category))];
+    renderCategoryOptions(uniqueCategories);
 
-    // Render data produk ke layar
+    // Render awal
     render();
 
   } catch (error) {
     state.status = "error";
-    console.error("Gagal mengambil data produk:", error);
-  } finally {
-    console.log("Proses loadProducts selesai");
+    renderStatus("error", error.message);
   }
 }
 
-// 5. EVENT LISTENERS (BAGIAN 19)
+// Event Listeners setup
 const searchInput = document.querySelector("#search-input");
 const categorySelect = document.querySelector("#category-select");
 const sortSelect = document.querySelector("#sort-select");
@@ -93,5 +93,5 @@ if (sortSelect) {
   });
 }
 
-// 6. JALANKAN APLIKASI
-loadProducts();
+// Jalankan aplikasi
+initApp();

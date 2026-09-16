@@ -1,32 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>Advanced Product Explorer</title>
+  <meta charset="UTF-8">
+  <title>Advanced Product Explorer & Analytics</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .controls { display: flex; gap: 10px; margin-bottom: 20px; }
+    .stats-card { background: #f4f4f4; padding: 15px; border-radius: 6px; margin-bottom: 20px; display: flex; gap: 20px; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+    .product-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; }
+    .product-card img { max-width: 100%; height: 120px; object-fit: contain; }
+    .status-msg { font-size: 1.2rem; font-weight: bold; margin: 20px 0; }
+    .error { color: red; }
+  </style>
 </head>
 <body>
-  <h1>Product Explorer</h1>
 
-  <input type="text" id="search-input" placeholder="Cari produk..." />
+  <h1>Product Explorer & Analytics Dashboard</h1>
 
-  <select id="category-select">
-    <option value="all">Semua Kategori</option>
-    <option value="laptops">Laptops</option>
-    <option value="phones">Phones</option>
-    <option value="audio">Audio</option>
-    <option value="accessories">Accessories</option>
-    <option value="electronics">Electronics</option>
-  </select>
+  <!-- Controls (Search, Filter, Sort) -->
+  <div class="controls">
+    <input type="text" id="search-input" placeholder="Cari produk...">
+    <select id="category-select">
+      <option value="all">Semua Kategori</option>
+    </select>
+    <select id="sort-select">
+      <option value="default">Urutan Default</option>
+      <option value="price-asc">Harga: Termurah</option>
+      <option value="price-desc">Harga: Termahal</option>
+      <option value="rating">Rating Tertinggi</option>
+      <option value="title">Judul (A-Z)</option>
+    </select>
+  </div>
 
-  <select id="sort-select">
-    <option value="default">Default</option>
-    <option value="price-asc">Harga: Termurah</option>
-    <option value="price-desc">Harga: Termahal</option>
-    <option value="rating">Rating Tertinggi</option>
-    <option value="title">Judul (A-Z)</option>
-  </select>
+  <!-- Section Statistics Bar (Requirement Bagian 26) -->
+  <div id="stats-container" class="stats-card">
+    <div><strong>Total Produk:</strong> <span id="stat-total-products">0</span></div>
+    <div><strong>Rata-rata Harga:</strong> $<span id="stat-avg-price">0</span></div>
+    <div><strong>Total Stok:</strong> <span id="stat-total-stock">0</span></div>
+    <div><strong>Rata-rata Rating:</strong> <span id="stat-avg-rating">0</span>★</div>
+  </div>
 
-  <div id="product-list"></div>
+  <!-- Area Status Loading / Error / Empty -->
+  <div id="status-message" class="status-msg"></div>
 
- <script type="module" src="js/main.js"></script>
+  <!-- Grid Produk -->
+  <div id="product-list" class="product-grid"></div>
+
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
